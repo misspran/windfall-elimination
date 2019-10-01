@@ -78,8 +78,7 @@ export default class Prescreen1b extends React.Component {
               <TextBlock>
                 To calculate your Social Security retirement benefits, you will need a record of your earnings from Social Security.
                 Follow the steps below to get your earning record.
-              </TextBlock> 
-                
+              </TextBlock>                
                     <Card>
                         <QuestionText>Do you have a MySocialSecurity account?</QuestionText>
                         <HelperText>
