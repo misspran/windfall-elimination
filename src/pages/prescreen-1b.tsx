@@ -5,7 +5,6 @@ import {
   ButtonLinkGreen,
   ButtonLink,
   Card,
-  HelperText,
   QuestionText,
   SEO,
   TextBlock,
@@ -131,14 +130,14 @@ the red box in the photo below.</ol>
                       <TextBlock>
                         Please upload your earnings record file
                       </TextBlock>
-                      <FileUpload manual={false}/>
+                      <FileUpload />
                       <TextBlock>
                         Once you have uploaded your earnings record, click "Submit".
                       </TextBlock>
                   </Card>
                   </HowToContainer>)
                   : (<Card>
-                    <div>Further instructions will be given based on your answer.</div>
+                    Further instructions will be given based on your answer.
                 </Card>)                  
                 }
           <ButtonLinkGreen to="/prescreen-1a/">Go back!</ButtonLinkGreen>

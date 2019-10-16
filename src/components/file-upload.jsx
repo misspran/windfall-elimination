@@ -111,7 +111,8 @@ export class GenerateTable extends React.Component {
 		var tablesize = 10;
 		var columnLength;
 		var earningsSize;
-		if ((this.props.parsedXml) && (this.props.manual === false))  {
+		console.log(this.props.parsedXml, this.props.manual);
+		if ((this.props.parsedXml) && (!this.props.manual))  {
 			const parsedXml = this.props.parsedXml;
 		    var earnings = parsedXml['osss:OnlineSocialSecurityStatementData']['osss:EarningsRecord']['osss:Earnings'];
 		    tableRows = earnings.map((earning, i) => {
@@ -121,15 +122,12 @@ export class GenerateTable extends React.Component {
 			    		<td><input id={earning['@_startYear']} defaultValue={earning['osss:FicaEarnings']} onChange={this.props.handleInputEarnings}></input></td>
 			    	</React.Fragment>
 		    	)
-		    })
-		    earningsSize = tableRows.length;
-		   	if (earningsSize / 10 > 5) {
-		   		columnLength = 20
-		      	tablesize = Math.ceil(earnings.length / columnLength)
-		    } else {
-		    	columnLength = 15
-		    	tablesize = Math.ceil(earnings.length / columnLength)
-		    }
+			})
+			earningsSize = tableRows.length;
+			columnLength = (earningsSize/10) > 5 ? 20 : 15;
+			tablesize = Math.ceil(this.props.manualTable.length / columnLength);
+			tableRows = tableRows.length? this.alignColumns(tableRows, columnLength): tableRows;
+		    
 		    this.headers = Array(tablesize).fill(null).map((header, index) => {
 		        return(
 		          <React.Fragment key={"header" + index}>
@@ -137,7 +135,9 @@ export class GenerateTable extends React.Component {
 		          </React.Fragment>
 		          )
 		      })
-	   	} else if (this.props.manual) {
+		   } 
+		   
+		   if (this.props.manual) {
 		   	tableRows = this.props.manualTable.map((record, key) => {
 			    	return(
 			    		<React.Fragment key={"earning" + key}>
@@ -155,14 +155,10 @@ export class GenerateTable extends React.Component {
 			    	)
 
 			    })
-		   	earningsSize = tableRows.length;
-		   	if (earningsSize / 10 > 5) {
-		      	columnLength = 20
-		      	tablesize = Math.ceil(this.props.manualTable.length / columnLength)
-		    } else {
-		    	columnLength = 15
-		    	tablesize = Math.ceil(this.props.manualTable.length / columnLength)
-		    }
+			   earningsSize = tableRows.length;
+			   columnLength = (earningsSize/10) > 5 ? 20 : 15;
+			   tablesize = Math.ceil(this.props.manualTable.length / columnLength)
+			   tableRows = tableRows.length? this.alignColumns(tableRows, columnLength): tableRows;
 
 		    this.headers = Array(tablesize).fill(null).map((header, index) => {
 		        return(
@@ -170,18 +166,10 @@ export class GenerateTable extends React.Component {
 		            <TableHeader>Year</TableHeader ><TableHeader>Amount</TableHeader>
 		          </React.Fragment>
 		          )
-		      })
+			  })
 
-		} else {
-			this.header = <tr></tr>;
-		   	tableRows = <tr></tr>;
-		};
-
-		if (tableRows.length > 0) {
-			finalRows = this.alignColumns(tableRows, columnLength)
-		} else {
-			finalRows = tableRows
-		}
+			  console.log(tableRows)
+		} 
 	  	
 		return (
 			<DisplayTable>
@@ -467,12 +455,13 @@ export default class FileUpload extends React.Component {
  	 }
 
 	render() {
+		console.log(this.props.manual)
 		return (
 			<div className ='upload-form'>
-					<UploadButton style={{display: this.props.manual ? 'none' : true}}>
-						<UploadLabel htmlFor="inputfile" className="btn">{this.state.buttonText}</UploadLabel>
+					{this.props.manual? null : (<UploadButton style={{display: this.props.manual ? 'none' : true}}>
+						<UploadLabel htmlFor="inputfile" className="btn">Upload</UploadLabel>
 						<UploadInput type={this.state.buttonType} id='inputfile' ref={this.fileInput} onChange={this.state.buttonFunction}></UploadInput>
-					</UploadButton>
+					</UploadButton>)}
 					<GenerateTable
 						parsedXml={this.state.earningsRecord}
 						handleInputEarnings={this.handleInputEarnings}
