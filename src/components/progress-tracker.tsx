@@ -11,7 +11,6 @@ enum stepStatus {
 }
 
 const StyledStep = styled(Link)`
-  background-color: ${colors.white};
   color: ${props => {
     switch (props.status) {
       case stepStatus.complete: {
@@ -51,9 +50,23 @@ flex-direction: row;
 align-items: center;
 max-height: 70px;
 margin: 0;
-width: 100%;
 max-height:65px;
 font-weight: 600px;
+&:after {
+  content: '»';
+  color: ${colors.purple};
+  opacity: 0;  
+  transition: 0.3s;
+  font-size: 32px;
+  padding-bottom: 5px;
+}
+&:hover {
+  color: ${colors.purple};
+}
+&:hover:after {
+  color: ${colors.purple};
+  opacity: 1;
+}
 `
 
 const StyledStepContainer = styled("div")`

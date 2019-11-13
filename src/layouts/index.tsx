@@ -46,7 +46,7 @@ width: 100%;
 `;
 
 const ButtonContainer = styled.div`
-  margin: 10px auto 10px 20vw;
+  margin: 10px auto 10px 21.5vw;
   @media (max-width: 1024px) {
     display: flex;
     width: 100%;
